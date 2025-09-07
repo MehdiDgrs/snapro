@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use App\Models\CropTask;
 use App\Jobs\ProcessCrop;
 use Illuminate\Http\JsonResponse;
+use Exception;
 
 class CropController extends Controller
 {  
@@ -18,17 +19,16 @@ class CropController extends Controller
         ]); */
 
         //$path = $request->file('image')->store('uploads', 'public');
+        
 
-        $task = CropTask::firstOrCreate([
+       $task = CropTask::firstOrCreate(
             ['user_id' => 1],
             [    
             'image' => 'mypath',
-            'status' => 'pending'
-            ]
-        ]);
-
+            'status' => 'processing'
+            ]);
         
-        ProcessCrop::dispatch($task);
+        //ProcessCrop::dispatch($task);
 
         return response()->json([
             'task_id' => $task->id,
