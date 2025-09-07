@@ -8,4 +8,4 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/crop', [CropController::class, 'generate']);
+Route::post('/crop', [CropController::class, 'generate']);

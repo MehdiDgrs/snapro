@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { dashboard, login, register } from '@/routes';
 import { Head, Link } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
-async function getData() {
+const pickedPicture = ref(null);
+
+async function getData(event) {
+  console.log(event);
+
   return;
   const url = "http://localhost:8000/api/crop";
   try {
@@ -16,12 +21,14 @@ async function getData() {
   } catch (error) {
     console.error(error.message);
   }
-}
+} 
 
 </script>
 
 <template>
-  <div>
-    <input @click="getData" type="file" accept="image/*" capture="camera">
+  <div> 
+    <Form action="/api/crop" method="post">
+      <input type="file" accept="image/*" capture="camera">
+    </Form>
   </div>
 </template>
