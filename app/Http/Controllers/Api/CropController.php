@@ -14,26 +14,16 @@ class CropController extends Controller
 {  
     public function generate(Request $request): JsonResponse
     {
-        return response()->json($request->all());
-
-         // multipart header 
-
-
-       /*  $request->validate([ // maybe validate idk 
-            'image' => 'required|image|max:5120', 
-        ]); */
-
-        //$path = $request->file('image')->store('uploads', 'public'); // need to store case jobs fail we cant keep it in cache 
-
-
-        
-
-       $task = CropTask::firstOrCreate(
-            ['user_id' => 1],
-            [    
-            'image' => 'mypath',
-            'status' => 'processing'
-            ]);
+       $request->validate([ 
+            'file' => 'required|image|max:5120', 
+        ]);
+       
+        $task = CropTask::firstOrCreate(
+                ['user_id' => 1],
+                [    
+                'image' => $request->file->path(),
+                'status' => 'processing',
+                ]);
         
         ProcessCrop::dispatch($task);
 

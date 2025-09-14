@@ -1,23 +1,19 @@
 <?php
+namespace App\Services\Crop;
 
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
 abstract class CropManager
 {
-    public string $img;
-
-    public function __constructor(
-        string $img 
-    ) {
-        $this->img = $img;
-    }
-
-    protected function request() {
-        Http::withHeaders([
+    protected function request(string $imgPath): Response
+    {
+        dd($imgPath);
+        return Http::withHeaders([
             'multipart' => [
                 [
                     'name'     => 'image_file',
-                    'contents' => fopen($this->img, 'r')
+                    'contents' => fopen($imgPath, 'r')
                 ],
                 [
                     'name'     => 'size',
@@ -28,9 +24,6 @@ abstract class CropManager
         ])->post(config('cropProvider.endooint'));
     }
 
-    public function generate(): string
-    {
-        return 'hello';
-    }
+    abstract public function generate(string $imgPath);
 }
 ?> 

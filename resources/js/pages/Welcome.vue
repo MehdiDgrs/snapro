@@ -5,13 +5,26 @@ import { ref } from 'vue';
 
 const pickedPicture = ref(null);
 
-async function getData(event) {
-  console.log(event);
+async function sendFile(files) {
+  console.log(files);
 
-  return;
+  if (!files) {
+    return;
+  }
+
   const url = "http://localhost:8000/api/crop";
+  
+  const formData = new FormData();
+
+  formData.append('file', files[0]);
+
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'POST',
+      body: formData,
+    });
+
+
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
     }
@@ -27,8 +40,9 @@ async function getData(event) {
 
 <template>
   <div> 
-    <Form action="/api/crop" method="post">
-      <input type="file" accept="image/*" capture="camera">
-    </Form>
-  </div>
+    <form action="/api/crop" method="post">
+      <label for="file">Take your pics bg</label>
+      <input @change="(e) => sendFile(e.target?.files)" id="file" name="file" type="file" accept="image/*" capture="camera">
+    </form>
+  </div>  
 </template>

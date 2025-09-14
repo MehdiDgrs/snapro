@@ -3,9 +3,9 @@
 namespace App\Jobs;
 
 use App\Models\CropTask;
-use CropManager;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use App\Services\Crop\CropManager;
 
 class ProcessCrop implements ShouldQueue
 {
@@ -25,7 +25,7 @@ class ProcessCrop implements ShouldQueue
      */
     public function handle(CropManager $manager): void
     {
-         try {
+        try {
             $processedPath = $manager->generate($this->task->image);
 
             $this->task->update([
