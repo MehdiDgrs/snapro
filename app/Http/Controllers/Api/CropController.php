@@ -18,11 +18,11 @@ class CropController extends Controller
             'file' => 'required|image|max:5120', 
         ]);
        
-        $task = CropTask::firstOrCreate(
-                ['user_id' => 1],
+        $task = CropTask::updateOrCreate(
+                [ 'user_id' => 1 ],
                 [    
-                'image' => $request->file->path(),
-                'status' => 'processing',
+                    'image'   => $request->file->path(),
+                    'status'  => 'processing',
                 ]);
         
         ProcessCrop::dispatch($task);
